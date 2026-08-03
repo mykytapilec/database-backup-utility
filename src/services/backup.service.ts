@@ -3,6 +3,8 @@ import { join } from "node:path";
 import type { AppConfig } from "../config/types.js";
 import { createPostgresBackup } from "../database/postgres.js";
 import { ensureDirectory } from "../utils/filesystem.js";
+import { getFileSize } from "../utils/file-info.js";
+import { saveBackupMetadata } from "./metadata.service.js";
 
 function createBackupFilename(): string {
   const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
@@ -21,6 +23,16 @@ export async function runBackup(config: AppConfig): Promise<void> {
   }
 
   await createPostgresBackup(config.database, outputFile);
+
+  const metadata = {
+    filename,
+    database: config.database.database,
+    type: config.database.type,
+    createdAt: new Date().toISOString(),
+    size: await getFileSize(outputFile),
+  };
+
+  await saveBackupMetadata(config.backupDirectory, metadata);
 
   console.log(`Backup created: ${outputFile}`);
 }
