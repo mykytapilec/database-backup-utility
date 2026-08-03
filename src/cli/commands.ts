@@ -1,0 +1,22 @@
+import { Command } from "commander";
+
+import { backupCommand } from "../commands/backup.js";
+import { restoreCommand } from "../commands/restore.js";
+import { listCommand } from "../commands/list.js";
+
+export function registerCommands(program: Command): void {
+  program
+    .command("backup")
+    .description("Create database backup")
+    .action(backupCommand);
+
+  program
+    .command("restore")
+    .description("Restore database backup")
+    .action(restoreCommand);
+
+  program
+    .command("list")
+    .description("List available backups")
+    .action(listCommand);
+}
