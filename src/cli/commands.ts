@@ -8,7 +8,9 @@ export function registerCommands(program: Command): void {
   program
     .command("backup")
     .description("Create database backup")
-    .action(backupCommand);
+    .action(async () => {
+      await backupCommand();
+    });
 
   program
     .command("restore")
