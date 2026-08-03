@@ -1,10 +1,16 @@
 import { Command } from "commander";
 
-const program = new Command();
+import { registerCommands } from "./commands.js";
 
-program
-  .name("database-backup")
-  .description("Database backup utility CLI")
-  .version("1.0.0");
+export function createCli(): Command {
+  const program = new Command();
 
-program.parse();
+  program
+    .name("database-backup")
+    .description("Database backup utility CLI")
+    .version("1.0.0");
+
+  registerCommands(program);
+
+  return program;
+}
