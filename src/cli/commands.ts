@@ -22,5 +22,7 @@ export function registerCommands(program: Command): void {
   program
     .command("list")
     .description("List available backups")
-    .action(listCommand);
+    .action(async () => {
+      await listCommand();
+    });
 }
