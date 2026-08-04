@@ -13,9 +13,11 @@ export function registerCommands(program: Command): void {
     });
 
   program
-    .command("restore")
+    .command("restore <backupFile>")
     .description("Restore database backup")
-    .action(restoreCommand);
+    .action(async (backupFile) => {
+      await restoreCommand(backupFile);
+    });
 
   program
     .command("list")
